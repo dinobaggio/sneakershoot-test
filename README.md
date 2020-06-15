@@ -11,7 +11,7 @@ project ini terdiri dari :
 2. Menampilkan detail post `GET: /posts/${id}`
 3. Mengedit post `PUT: /posts/${id}`
 
-untuk edit post saya buat manipulasi agar data tetap terubah, dikarenakan services JSON placeholder tidak merubah data walaupun sudah menembak endpoint yang tersedia
+untuk edit post saya buat manipulasi agar data tetap terubah, dikarenakan services JSON placeholder tidak merubah data walaupun sudah menembak endpoint yang tersedia, akan tetapi tetap menembak endpoint edit post walaupun tidak berefek sama sekali.
 
 ## Installation
 ada penambahan tahapan untuk instalasinya karena saya menggunakan library `build_runner` untuk menggenerate services pada kodingan, seperti generate route agar lebih mudah dalam pengimplementasian.
