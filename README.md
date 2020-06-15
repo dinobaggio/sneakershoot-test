@@ -18,4 +18,8 @@ ada penambahan tahapan untuk instalasinya karena saya menggunakan library `build
 
 1. cmd: `flutter pub get`
 2. cmd: `flutter pub run build_runner build`
-3. done tinggal jalankan emulator atau sejenisnya.
+3. done tinggal jalankan emulator atau sejenisnya.  
+
+## Requirement
+
+SDK flutter menggunakan versi: `1.17.3`
