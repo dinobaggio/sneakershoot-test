@@ -15,6 +15,9 @@ class HomeViewModel extends StreamViewModel<List<Post>> {
 
   String get title => 'Daftar Post';
 
+  List<Post> _allPost = [];
+  List<Post> _currentPost = [];
+
   @override
   Stream<List<Post>> get stream => _isLoading == true ? recycle() : getPosts();
 
@@ -22,6 +25,17 @@ class HomeViewModel extends StreamViewModel<List<Post>> {
   void dispose() {
     _scrollController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initialise() {
+    super.initialise();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        _currentPost.add(Post(title: 'tes', body: 'tex', id: 1, userId: 2));
+      }
+    });
   }
 
   Stream<List<Post>> recycle() async* {
@@ -52,14 +66,19 @@ class HomeViewModel extends StreamViewModel<List<Post>> {
   builder(BuildContext context, AsyncSnapshot snapshot) {
     if (snapshot.data == null) return LoadingComponent();
 
+//    ListView(
+//      controller: _scrollController,
+//      children: snapshot.data.map<Widget>(_buildItem).toList(),
+//    )
+
     return RefreshIndicator(
       onRefresh: () async {
         await Future.delayed(Duration(milliseconds: 500));
         refresh();
       },
-      child: ListView(
-        controller: _scrollController,
-        children: snapshot.data.map<Widget>(_buildItem).toList(),
+      child: ListPostComponent(
+        navigationToDetail: navigationToDetail,
+        allPost: snapshot.data,
       ),
     );
   }

@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:sneakershoottest/app/locator.dart';
 import 'package:sneakershoottest/core/components.dart';
 import 'package:sneakershoottest/core/models/post.dart';
-import 'package:sneakershoottest/app/router.gr.dart';
 import 'package:stacked/stacked.dart';
 import 'package:http/http.dart' as http;
+import 'package:stacked_services/stacked_services.dart';
 
 class DetailPostViewModel extends StreamViewModel<Post> {
   final int id;
@@ -20,6 +22,7 @@ class DetailPostViewModel extends StreamViewModel<Post> {
   String get body => _body;
 
   bool _isLoading = false;
+
   bool get isLoading => _isLoading;
 
   Stream<Post> get stream => _isLoading == true ? recycle() : getDetailPost();
@@ -52,28 +55,27 @@ class DetailPostViewModel extends StreamViewModel<Post> {
   String getTitle() => _title;
 
   void setTitle(String value) {
+    // update current title post
     _title = value;
   }
 
   void setBody(String value) {
+    // update current body post
     _body = value;
   }
 
-  void handleSave(BuildContext context) async {
+  handleSave(BuildContext context) async {
+    // tetap update menggunakan rest api, walaupun tidak berefek pada current post
     String data = json.encode({"title": _title, "body": _body});
-
-    // update menggunakan rest api
     await http.put(
       "https://jsonplaceholder.typicode.com/posts/$id",
       body: data,
       headers: {"Content-Type": "application/json"},
     );
-    _isLoading = true;
-    notifySourceChanged();
 
-    // pop 2x karena nutup dua alert dialog
-    Navigator.of(context).pop();
-    Navigator.of(context).pop();
+    _isLoading = true;
+    // memberitahukan bahwa data ada yang berubah, dan me re render widget
+    notifySourceChanged();
   }
 
   Widget builder(BuildContext context, AsyncSnapshot snapshot) {
@@ -112,6 +114,25 @@ class DetailPostViewModel extends StreamViewModel<Post> {
           ),
         ),
       ],
+    );
+  }
+
+  showForm(BuildContext context) {
+    final titleController = TextEditingController();
+    titleController.value = TextEditingValue(text: _title);
+    final bodyController = TextEditingController();
+    bodyController.value = TextEditingValue(text: _body);
+
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      child: DialogComponent(
+        title: _title,
+        body: _body,
+        setTitle: setTitle,
+        setBody: setBody,
+        handleSave: handleSave,
+      ),
     );
   }
 }
