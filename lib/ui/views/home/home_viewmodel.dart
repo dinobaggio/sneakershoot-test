@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:sneakershoottest/app/locator.dart';
 import 'package:sneakershoottest/core/components.dart';
 import 'package:sneakershoottest/core/models/post.dart';
@@ -66,11 +65,6 @@ class HomeViewModel extends StreamViewModel<List<Post>> {
   builder(BuildContext context, AsyncSnapshot snapshot) {
     if (snapshot.data == null) return LoadingComponent();
 
-//    ListView(
-//      controller: _scrollController,
-//      children: snapshot.data.map<Widget>(_buildItem).toList(),
-//    )
-
     return RefreshIndicator(
       onRefresh: () async {
         await Future.delayed(Duration(milliseconds: 500));
@@ -79,30 +73,6 @@ class HomeViewModel extends StreamViewModel<List<Post>> {
       child: ListPostComponent(
         navigationToDetail: navigationToDetail,
         allPost: snapshot.data,
-      ),
-    );
-  }
-
-  Widget _buildItem(Post post) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0),
-      child: Card(
-        child: Column(
-          children: <Widget>[
-            ListTile(
-              leading: Text('ID: ${post.id}'),
-              title: Text(post.title),
-            ),
-            ButtonBar(
-              children: <Widget>[
-                FlatButton(
-                  child: const Text('Detail'),
-                  onPressed: () => navigationToDetail(post),
-                ),
-              ],
-            ),
-          ],
-        ),
       ),
     );
   }

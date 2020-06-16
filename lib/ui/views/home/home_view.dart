@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sneakershoottest/core/components.dart';
 import 'package:sneakershoottest/core/models/post.dart';
 import 'package:stacked/stacked.dart';
 import 'package:sneakershoottest/ui/views/home/home_viewmodel.dart';

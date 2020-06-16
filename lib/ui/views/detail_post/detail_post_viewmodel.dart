@@ -2,12 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:sneakershoottest/app/locator.dart';
 import 'package:sneakershoottest/core/components.dart';
 import 'package:sneakershoottest/core/models/post.dart';
 import 'package:stacked/stacked.dart';
 import 'package:http/http.dart' as http;
-import 'package:stacked_services/stacked_services.dart';
 
 class DetailPostViewModel extends StreamViewModel<Post> {
   final int id;
